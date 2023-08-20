@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Price Range Slider | CodingNepal</title>
+  <!-- <link rel="stylesheet" href="./css/style.css"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <h2>Price Range</h2>
+    </header>
+    <div class="price-input">
+      <div class="field">
+        <span>Min</span>
+        <input type="number" class="input-min" value="10000">
+      </div>
+      <div class="separator">-</div>
+      <div class="field">
+        <span>Max</span>
+        <input type="number" class="input-max" value="30000">
+      </div>
+    </div>
+   
+  <script>
+    const rangeInput = document.querySelectorAll(".range-input input"),
+      priceInput = document.querySelectorAll(".price-input input"),
+      range = document.querySelector(".slider .progress");
+    let priceGap = 1000;
+
+    priceInput.forEach(input => {
+      input.addEventListener("input", e => {
+        let minPrice = parseInt(priceInput[0].value),
+          maxPrice = parseInt(priceInput[1].value);
+
+        if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max) {
+          if (e.target.className === "input-min") {
+            rangeInput[0].value = minPrice;
+            range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
+          } else {
+            rangeInput[1].value = maxPrice;
+            range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+          }
+        }
+      });
+    });
+
+    rangeInput.forEach(input => {
+      input.addEventListener("input", e => {
+        let minVal = parseInt(rangeInput[0].value),
+          maxVal = parseInt(rangeInput[1].value);
+
+        if ((maxVal - minVal) < priceGap) {
+          if (e.target.className === "range-min") {
+            rangeInput[0].value = maxVal - priceGap
+          } else {
+            rangeInput[1].value = minVal + priceGap;
+          }
+        } else {
+          priceInput[0].value = minVal;
+          priceInput[1].value = maxVal;
+          range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
+          range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
